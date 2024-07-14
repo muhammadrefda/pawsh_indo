@@ -1,0 +1,12 @@
+# Project exclude paths
+/src/index.js
+
+# Node modules
+node_modules/
+
+# .idea
+.idea/
+
+# .env
+.env
+
