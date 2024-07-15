@@ -33,18 +33,36 @@ model User {
   description       String?
   platform          Platform?
   password          String
+  gcm_token         String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  groomer           Groomer?  @relation(fields: [], references: [])
-  customer          Customer? @relation(fields: [], references: [])
+  groomerId         String?
+  customerId        String?
+  groomer           Groomer?  @relation(fields: [groomerId], references: [id], map: "User_groomer_fkey")
+  customer          Customer? @relation(fields: [customerId], references: [id], map: "User_customer_fkey")
 }
 
 model Groomer {
-  User User[]
+  id                      String    @id @default(cuid())
+  User                    User[]
+  is_home_based           Boolean   @default(false)
+  is_offer_pickup         Boolean   @default(false)
+  is_house_call           Boolean   @default(false)
+  is_mobile               Boolean   @default(false)
+  avg_response_time       Int?
+  min_years_of_experience Int?
+  max_years_of_experience Int?
+  epoch_last_logged_in    DateTime?
+  is_active               Boolean   @default(true)
+  tags                    String[]
+  profile_video           String?
+  wallet_amount           Float     @default(0)
 }
 
 model Customer {
-  User User[]
+  id         String   @id @default(cuid())
+  User       User[]
+  groom_area String[]
 }
 
 enum UserType {
